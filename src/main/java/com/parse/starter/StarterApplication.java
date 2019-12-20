@@ -18,6 +18,9 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+// parse login
+// username: user
+// password: cf1tRXsSlJzE
 
 public class StarterApplication extends Application {
 
@@ -32,15 +35,15 @@ public class StarterApplication extends Application {
 
         // Add your initialization code here
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId("2dd65b9333c34e71225e4feb5882e1a756ad894e")
-                .clientKey("b4164aa7a1a765749c911ed075fc74e57a332441")
-                .server("http://18.221.22.237:80/parse/")
+                .applicationId("dc0286e91190f62d4deee0aeb444ceabaf6836c4")
+                .clientKey("77c3816ceddfb25bc96f504a2cd4d7022dc31b29")
+                .server("http://3.134.83.146:80/parse/")
                 .build()
         );
 
         ParseObject object = new ParseObject("ExampleObject");
         object.put("myNumber", "123");
-        object.put("myString", "rob");
+        object.put("myString", "Sam");
 
         object.saveInBackground(new SaveCallback () {
             @Override
