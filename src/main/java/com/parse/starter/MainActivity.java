@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   EditText usernameEditText;
   EditText passwordEditText;
 
+  public void showUsers(){
+    Intent intent = new Intent(getApplicationContext(), ShowUsersActivity.class);
+    startActivity(intent);
+  }
   @Override
   public void onClick(View view) {
     if (view.getId() == R.id.loginTextView) {
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           public void done(ParseException e) {
             if (e == null) {
               Log.i("Signup", "Success");
+              showUsers();
             } else {
               Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -97,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           public void done(ParseUser user, ParseException e) {
             if (user != null) {
               Log.i("Login","ok!");
+              showUsers();
             } else {
               Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -121,6 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout loginLayout = (RelativeLayout) findViewById(R.id.Loginlayout);
     loginLayout.setOnClickListener(this);
     iconimageView.setOnClickListener(this);
+
+    if(ParseUser.getCurrentUser()!=null){
+      showUsers();
+    }
+
+
 
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
