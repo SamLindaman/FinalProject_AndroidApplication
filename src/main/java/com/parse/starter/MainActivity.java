@@ -8,12 +8,17 @@
  */
 package com.parse.starter;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,11 +39,14 @@ import com.parse.SignUpCallback;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
 
   Boolean signUpModeActive = true;
   TextView loginTextView;
   Button signUpButton;
+  EditText usernameEditText;
+  EditText passwordEditText;
+
   @Override
   public void onClick(View view) {
     if (view.getId() == R.id.loginTextView) {
@@ -55,12 +63,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loginTextView.setText("or, Login");
       }
 
+    } else if(view.getId()==R.id.Loginlayout||view.getId()==R.id.iconimageView){
+      InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+      inputMethodManager.hideSoftInputFromInputMethod(getCurrentFocus().getWindowToken(),0);
     }
   }
 
   public void signUpClicked(View view) {
-    EditText usernameEditText = (EditText) findViewById(R.id.usernameEditText);
-    EditText passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
     if (usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")) {
       Toast.makeText(this, "A username and a password are required.",Toast.LENGTH_SHORT).show();
@@ -105,7 +114,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     loginTextView = (TextView) findViewById(R.id.loginTextView);
     loginTextView.setOnClickListener(this);
     signUpButton = (Button) findViewById(R.id.signUpButton);
+    usernameEditText = (EditText) findViewById(R.id.usernameEditText);
+    passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+    passwordEditText.setOnKeyListener(this);
+    ImageView iconimageView = (ImageView) findViewById(R.id.iconimageView);
+    RelativeLayout loginLayout = (RelativeLayout) findViewById(R.id.Loginlayout);
+    loginLayout.setOnClickListener(this);
+    iconimageView.setOnClickListener(this);
+
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
   }
 
+  @Override
+  public boolean onKey(View view, int i, KeyEvent key) {
+    if(i==KeyEvent.KEYCODE_ENTER && key.getAction()==KeyEvent.ACTION_DOWN){
+      signUpClicked(view);
+    }
+    return false;
+  }
 }
