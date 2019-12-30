@@ -58,7 +58,7 @@ public class UserFeedActivity extends AppCompatActivity {
                                     ));
 
                                     imageview.setImageBitmap(bitmap);
-
+                                    imageview.setPadding(10,10,10,10);
                                     linearLayout.addView(imageview);
                                 }
                             }
