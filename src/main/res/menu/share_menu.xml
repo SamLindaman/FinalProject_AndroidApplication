@@ -3,4 +3,5 @@
 
     <item android:title="Share" android:id="@+id/share"></item>
     <item android:title="Logout" android:id="@+id/logout"></item>
+    <item android:title="Your Photos" android:id="@+id/yourphotos"></item>
 </menu>

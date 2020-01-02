@@ -12,16 +12,17 @@
     android:id="@+id/Loginlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/gradient"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/iconimageView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/instagram" />
@@ -31,8 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iconimageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="55dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName" />
@@ -42,8 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/usernameEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="22dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword" />
@@ -52,9 +51,10 @@
         android:id="@+id/signUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/iconimageView"
         android:layout_below="@+id/passwordEditText"
-        android:layout_marginTop="38dp"
+        android:layout_alignStart="@+id/iconimageView"
+        android:layout_marginStart="-16dp"
+        android:layout_marginTop="53dp"
         android:onClick="signUpClicked"
         android:text="Sign Up" />
 
@@ -69,4 +69,23 @@
         android:text="or, Login"
         android:textColor="@color/cast_libraries_material_featurehighlight_outer_highlight_default_color"
         android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:gravity="center"
+        android:text="Welcome to Instagram!"
+        android:textStyle="bold"
+        android:textSize="25dp" />
 </RelativeLayout>

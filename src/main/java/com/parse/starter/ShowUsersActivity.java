@@ -113,6 +113,10 @@ public class ShowUsersActivity extends AppCompatActivity {
             ParseUser.logOut();
             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
             startActivity(intent);
+        } else if(item.getItemId()==R.id.yourphotos){
+            Intent intent = new Intent(getApplicationContext(),UserFeedActivity.class);
+            intent.putExtra("username",ParseUser.getCurrentUser().getUsername());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -123,6 +127,7 @@ public class ShowUsersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_users);
+        setTitle("Instagram Users");
 
 
         final ListView listView = (ListView) findViewById(R.id.listView);
