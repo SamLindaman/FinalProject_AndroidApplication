@@ -34,8 +34,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//This activity shows the list of users who have signed up for the app
+//it pulls all the users from the database, and displays their usernames
+//the current user can then select a user, and view the photos that they have posted
 public class ShowUsersActivity extends AppCompatActivity {
 
+    //creates the drop down menu in the top right corner of the activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
@@ -43,20 +47,22 @@ public class ShowUsersActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    //
+    //opens the photo gallery.
     public void getPhoto(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent,1);
     }
 
+    //get photo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Uri selectedImage = data.getData();
-
+//makes sure that the user has allowed access to photos
         if(requestCode ==1&&resultCode ==RESULT_OK &&  data!=null){
             try{
+                //store the image as a bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
 
                 Log.i("Image Selected","nice");
@@ -70,6 +76,7 @@ public class ShowUsersActivity extends AppCompatActivity {
 
                 //store image and username info under image object
                 ParseObject object = new ParseObject("image");
+                object.put("numberoflikes",0);
                 object.put("image",file);
                 object.put("username",ParseUser.getCurrentUser().getUsername());
                 object.saveInBackground(new SaveCallback() {
@@ -92,6 +99,8 @@ public class ShowUsersActivity extends AppCompatActivity {
         }
     }
 
+
+    //if user has granted permission to access photos
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -105,6 +114,7 @@ public class ShowUsersActivity extends AppCompatActivity {
 
 
     //menu button for share image or logout
+    //starts new activity for each
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.share){
@@ -132,11 +142,12 @@ public class ShowUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_users);
         setTitle("Instagram Users");
 
-
+        //creats list of users where we will store the parse users
         final ListView listView = (ListView) findViewById(R.id.listView);
         final ArrayList<String> usernames = new ArrayList<String>();
         final ArrayAdapter arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,usernames);
 
+        //when an item is clicked, open an activity with that person's uploaded photos
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -147,8 +158,8 @@ public class ShowUsersActivity extends AppCompatActivity {
         });
 
 
+        //find all users whose username is not equal to the current user's (everyone else)
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-
         query.whereNotEqualTo("username",ParseUser.getCurrentUser().getUsername());
         query.addAscendingOrder("username");
 

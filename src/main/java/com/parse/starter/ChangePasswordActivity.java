@@ -1,5 +1,4 @@
 package com.parse.starter;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
@@ -20,6 +19,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+//This activity is used to change the current user's password
+
 public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
         EditText passwordEditText;
         EditText newPasswordEditText;
@@ -27,22 +28,21 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
         Button changePasswordButton;
 
 
-
+        //will be called to return to the home page
         public void showUsers(){
                 Intent intent = new Intent(getApplicationContext(), ShowUsersActivity.class);
                 startActivity(intent);
         }
 
+        //set clickable buttons, image views, and Edit Texts to the layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         changePasswordButton = (Button) findViewById(R.id.changePasswordButton);
-        //changePasswordButton.setOnClickListener(this);
         ImageView iconimageView = (ImageView) findViewById(R.id.iconimageView);
         RelativeLayout changepasswordlayout = (RelativeLayout) findViewById(R.id.changepasswordlayout);
         changepasswordlayout.setOnClickListener(this);
-
         passwordEditText = (EditText)  findViewById(R.id.passwordEditText);
         newPasswordEditText = (EditText) findViewById(R.id.newpasswordEditText1);
         verifyPasswordEditText = (EditText) findViewById(R.id.newpasswordEditText2);
@@ -51,16 +51,18 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
         public void changePasswordClicked(View view) {
-
+                //check if any of the Edit Texts are left blank
                 if (passwordEditText.getText().toString().matches("") || newPasswordEditText.getText().toString().matches("")
                 || verifyPasswordEditText.getText().toString().matches("")) {
                         Toast.makeText(this, "All fields are required.",Toast.LENGTH_SHORT).show();
                         Log.i("click","1");
 
-                } else if(passwordEditText.getText().toString().matches(newPasswordEditText.getText().toString())){
+                } // check if the new password is the same as the old password. If so, throw error to user
+                else if(passwordEditText.getText().toString().matches(newPasswordEditText.getText().toString())){
                         Toast.makeText(this,"New password must be different from old password",Toast.LENGTH_SHORT).show();
                         Log.i("click","2");
-                }else if(newPasswordEditText.getText().toString().matches(verifyPasswordEditText.getText().toString())) {
+                }// if new password does not match old password, and matches the verify password, then log the user back in and call the showuser() class
+                else if(newPasswordEditText.getText().toString().matches(verifyPasswordEditText.getText().toString())) {
                         ParseUser currentUser = ParseUser.getCurrentUser();
                         currentUser.setPassword(newPasswordEditText.getText().toString());
                         currentUser.saveInBackground();
@@ -77,19 +79,25 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
                                 }
                         });
                         Log.i("click", "3");
-                } else{
+                } // if the passwords do not match, throw this error to user
+                else{
                         Toast.makeText(this,"Passwords do not match",Toast.LENGTH_SHORT).show();
                         Log.i("click","4");
                 }
         }
 
+
+        //close the keyboard if the user taps the background
         @Override
         public void onClick(View view) {
-
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromInputMethod(getCurrentFocus().getWindowToken(),0);
+                if(view.getId()==R.id.changepasswordlayout||view.getId()==R.id.iconimageView) {
+                        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
+                }
         }
 
+        //if the user hits the enter button on the on-screen keyboard while on the verify password field, the
+        //user tries logging in.
         @Override
         public boolean onKey(View view, int i, KeyEvent key) {
                 if(i==KeyEvent.KEYCODE_ENTER && key.getAction()==KeyEvent.ACTION_DOWN){

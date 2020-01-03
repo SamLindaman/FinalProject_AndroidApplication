@@ -18,9 +18,12 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+//THIS IS NEEDED TO CHECK THE DATABASE
 // parse login
+// URL: http://3.134.83.146/apps/My%20Bitnami%20Parse%20API/browser/_User
 // username: user
 // password: cf1tRXsSlJzE
+//this class is needed to open the parse instance for the rest of the project
 
 public class StarterApplication extends Application {
 
@@ -28,12 +31,9 @@ public class StarterApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // e6uPFYEglpBE
-
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
-        // Add your initialization code here
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .applicationId("dc0286e91190f62d4deee0aeb444ceabaf6836c4")
                 .clientKey("77c3816ceddfb25bc96f504a2cd4d7022dc31b29")
