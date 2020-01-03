@@ -132,8 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       showUsers();
     }
 
-
-
     ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
   }

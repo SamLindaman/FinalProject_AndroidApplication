@@ -78,7 +78,7 @@ public class ShowUsersActivity extends AppCompatActivity {
                         if(e==null){
                             Toast.makeText(ShowUsersActivity.this,"Image has been shared",Toast.LENGTH_SHORT);
                         }else{
-                            Toast.makeText(ShowUsersActivity.this,"Error Saving Image..",Toast.LENGTH_SHORT);
+                            Toast.makeText(ShowUsersActivity.this,"Error Saving Image",Toast.LENGTH_SHORT);
                         }
                     }
                 });
@@ -116,6 +116,9 @@ public class ShowUsersActivity extends AppCompatActivity {
         } else if(item.getItemId()==R.id.yourphotos){
             Intent intent = new Intent(getApplicationContext(),UserFeedActivity.class);
             intent.putExtra("username",ParseUser.getCurrentUser().getUsername());
+            startActivity(intent);
+        } else if (item.getItemId()==R.id.changepassword){
+            Intent intent = new Intent(getApplicationContext(),ChangePasswordActivity.class);
             startActivity(intent);
         }
 
