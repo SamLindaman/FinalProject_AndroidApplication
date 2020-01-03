@@ -53,7 +53,7 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e == null && objects.size()>0){
-                    for(ParseObject object : objects){
+                    for(final ParseObject object : objects){
                         ParseFile file = (ParseFile) object.get("image");
                         file.getDataInBackground(new GetDataCallback() {
                             @Override
@@ -71,17 +71,18 @@ public class UserFeedActivity extends AppCompatActivity {
                                             ViewGroup.LayoutParams.MATCH_PARENT,
                                             ViewGroup.LayoutParams.WRAP_CONTENT
                                     ));
-                                    imageview.setTag("0");
                                     imageview.setImageBitmap(bitmap);
                                     imageview.setPadding(10,20,10,10);
                                     imageview.setId(count);
                                     imageview.setClickable(true);
-                                    numberOfLikes.setText("Number of likes: " + imageview.getTag().toString());
+                                    numberOfLikes.setText("Number of likes: " + object.get("numberoflikes"));
                                     numberOfLikes.setGravity(Gravity.CENTER);
+                                    imageview.setTag(object.getObjectId().toString());
                                     linearLayout.addView(imageview);
                                     linearLayout.addView(numberOfLikes);
                                     count++;
 
+                                    //the following runnable code is to check for a double click scenario
                                     final Handler handler=new Handler();
 
                                     final Runnable r=new Runnable(){
@@ -100,18 +101,21 @@ public class UserFeedActivity extends AppCompatActivity {
                                                 Log.i("Clicked Image","It Works!");
 
                                                 ParseQuery queryImage = ParseQuery.getQuery("image");
-                                                ParseObject objectImage = new ParseObject("image");
+                                                queryImage.whereEqualTo("objectId",imageview.getTag());
+                                                //ParseObject objectImage = new ParseObject("image");
 
 
 
                                                 //objectImage.increment("numberoflikes");
-                                                String likesString =imageview.getTag().toString();
-                                                int likes = Integer.parseInt(likesString);
+
+                                                int likes = imageview.getId();
                                                 likes++;
 
-                                                imageview.setTag(likes);
+                                                imageview.setId(likes);
                                                 numberOfLikes.setText("Number of likes: "+likes);
-                                                objectImage.saveInBackground();
+
+                                                object.put("numberoflikes",likes);
+                                                object.saveInBackground();
 
 
                                                 isDoubleClicked=false;
